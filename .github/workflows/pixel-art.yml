@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 env:
-  COMMITS_PER_PIXEL: 20  # nombre de commits pour un "1" dans la matrice
+  COMMITS_PER_PIXEL: 151  # nombre de commits pour un "1" dans la matrice
 
 jobs:
   daily-commits:
@@ -71,6 +71,11 @@ jobs:
                     totalCount
                   }
                 }
+                repositoryContributions {
+                  contributions {
+                    totalCount
+                  }
+                }
               }
             }
           }
@@ -80,10 +85,17 @@ jobs:
           r = requests.post("https://api.github.com/graphql", json={"query": query}, headers=headers)
           data = r.json()
 
-          already_done = sum([repo["contributions"]["totalCount"]
-                              for repo in data["data"]["user"]["contributionsCollection"]["commitContributionsByRepository"]])
+          already_done = 0
 
-          commits_to_make = max(0, total_commits_today - already_done)
+          for repo in data["data"]["user"]["contributionsCollection"]["commitContributionsByRepository"]:
+              already_done += repo["contributions"]["totalCount"]
+
+          for repo in data["data"]["user"]["contributionsCollection"]["repositoryContributions"]:
+              already_done += repo["contributions"]["totalCount"]
+
+          import math
+          commits_to_make = max(0, math.ceil(total_commits_today - already_done))
+
 
           print(f"Commits déjà faits aujourd'hui: {already_done}")
           print(f"Commits à générer: {commits_to_make}")

@@ -82,7 +82,7 @@ pattern = [
 
 ## 🎮 Usage
 
-1. Ouvrir le fichier `index.html` ou le **CodePen lié**.
+1. Ouvrir le fichier `index.html` ou accéder à la [Version en ligne du projet 🎨](https://odowin.github.io/github-pixel-art)
 2. Cliquer sur les cases pour créer ton dessin.
 3. Exporter la matrice via le bouton **Exporter la matrice**.
 4. (Optionnel) Ajouter la matrice au workflow pour générer les commits automatiquement et laisser tes Space Invaders s’infiltrer dans la grille.
